@@ -47,4 +47,17 @@ export class CartService {
   deleteProduct(id: number) {
     this.cart = this.cart.filter((c) => c.product.id !== id);
   }
+
+  getProductQty(productId: number): number {
+    const item = this.cart.find((c) => c.product.id === productId);
+    return item ? item.qty : 0;
+  }
+
+  calculateTotal() {
+    return this.cart.reduce((sum, c) => sum + c.product.price * c.qty, 0);
+  }
+
+  clearCart() {
+    this.cart = [];
+  }
 }

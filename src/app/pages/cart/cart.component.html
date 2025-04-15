@@ -1,30 +1,39 @@
 <div class="cart-container">
   <h2>Your Cart 🛒</h2>
+  @if(!!cart.length){
+  <div class="flex-end">
+    <button class="btn btn-red m-10" (click)="deleteAll()">Clear Cart</button>
+  </div>
+
   <table class="cart-table">
     <thead>
       <th>Product</th>
-      <th>Price</th>
+      <th>Price (KWD)</th>
       <th>Quantity</th>
       <th colspan="3"></th>
-      <th>Total</th>
+      <th>Total (KWD)</th>
       <th></th>
     </thead>
     <tbody>
       @for (c of cart; track $index) {
       <tr>
         <td>{{ c.product.name }}</td>
-        <td>{{ c.product.price }}</td>
+        <td>{{ c.product.price | number : "1.2-3" }}</td>
         <td class="qty-flex">
           <button class="btn btn-grey" (click)="decrementQty(c.product.id)">
             ➖
           </button>
           <span>{{ c.qty }}</span>
-          <button class="btn btn-grey" (click)="incrementQty(c.product.id)">
+          <button
+            class="btn btn-grey"
+            (click)="incrementQty(c.product.id)"
+            [disabled]="isAddDisabled(c.product)"
+          >
             ➕
           </button>
         </td>
         <td colspan="3"></td>
-        <td>{{ c.product.price * c.qty }}</td>
+        <td>{{ c.product.price * c.qty | number : "1.2-3" }}</td>
         <td>
           <button class="btn btn-grey" (click)="deleteProduct(c.product.id)">
             ❌
@@ -34,4 +43,22 @@
       }
     </tbody>
   </table>
+  <table class="cart-table">
+    <tbody>
+      <tr>
+        <td><h3 class="m-0">Total</h3></td>
+        <td>
+          <h3 class="m-0">
+            {{ total | currency : "KWD" : "symbol" : "1.1-3" }}
+          </h3>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  } @if(!cart.length){
+  <div class="cart-table">
+    <h4>Your cart is empty!</h4>
+  </div>
+
+  }
 </div>
