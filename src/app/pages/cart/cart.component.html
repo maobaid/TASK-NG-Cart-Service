@@ -1,3 +1,37 @@
 <div class="cart-container">
   <h2>Your Cart 🛒</h2>
+  <table class="cart-table">
+    <thead>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th colspan="3"></th>
+      <th>Total</th>
+      <th></th>
+    </thead>
+    <tbody>
+      @for (c of cart; track $index) {
+      <tr>
+        <td>{{ c.product.name }}</td>
+        <td>{{ c.product.price }}</td>
+        <td class="qty-flex">
+          <button class="btn btn-grey" (click)="decrementQty(c.product.id)">
+            ➖
+          </button>
+          <span>{{ c.qty }}</span>
+          <button class="btn btn-grey" (click)="incrementQty(c.product.id)">
+            ➕
+          </button>
+        </td>
+        <td colspan="3"></td>
+        <td>{{ c.product.price * c.qty }}</td>
+        <td>
+          <button class="btn btn-grey" (click)="deleteProduct(c.product.id)">
+            ❌
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
 </div>
